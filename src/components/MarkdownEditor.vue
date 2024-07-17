@@ -1,7 +1,7 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="align-centerfill-height mx-auto" max-width="1120px">
-      <div class="text-left mb-8">
+      <div class="text-left my-10">
         <h1 class="text-h6 text-grey_600 font-weight-bold">Content</h1>
       </div>
       <v-row>
@@ -89,7 +89,7 @@
           </div>
         </v-col>
         <v-col cols="12">
-          <p class="text-grey_500">
+          <p class="text-grey_500 text-body-2">
             **Bold** *Italic* _Underline_ - List with bullets # H1 ## H2 ### H3
             #### H4 ##### H5 ###### H6
           </p>
