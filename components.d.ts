@@ -7,9 +7,6 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    copy: typeof import('./src/components/HelloWorld copy.vue')['default']
-    Dialog: typeof import('./src/components/Dialog.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     MarkdownEditor: typeof import('./src/components/MarkdownEditor.vue')['default']
     MediaDialog: typeof import('./src/components/MediaDialog.vue')['default']
   }

@@ -2,90 +2,79 @@
   <v-container class="fill-height">
     <v-responsive class="align-centerfill-height mx-auto" max-width="1120px">
       <div class="text-left mb-8">
-        <h1 class="text-h6 font-weight-bold">Content</h1>
+        <h1 class="text-h6 text-grey_600 font-weight-bold">Content</h1>
       </div>
       <v-row>
         <v-col cols="12">
-          <div class="my-0 border rounded">
+          <div class="my-0 border border-grey_300 rounded">
             <nav
-              class="d-flex justify-space-between text-light_grey mx-4 border-b-thin"
+              class="d-flex justify-space-between mx-4 border-grey_300 border-b"
             >
-              <v-btn
-                variant="plain"
-                class="text-none text-light_grey font-weight-regular text-decoration-none py-3"
+              <a
+                class="text-none text-grey_500 font-weight-regular text-decoration-none py-3"
                 href="#"
                 @click="imageDialog = true"
-                >Image</v-btn
+                >Image</a
               >
-              <v-btn
-                variant="plain"
-                class="text-none text-light_grey font-weight-regular text-decoration-none py-3"
+              <a
+                class="text-none text-grey_500 font-weight-regular text-decoration-none py-3"
                 href="#"
                 @click="videoDialog = true"
-                >Video</v-btn
+                >Video</a
               >
-              <v-btn
-                variant="plain"
-                class="text-none text-light_grey font-weight-regular text-decoration-none py-3"
+              <a
+                class="text-none text-grey_500 font-weight-regular text-decoration-none py-3"
                 href="#"
                 @click="insertTemplate('description')"
-                >Description</v-btn
+                >Description</a
               >
-              <v-btn
-                variant="plain"
-                class="text-none text-light_grey font-weight-regular text-decoration-none py-3"
+              <a
+                class="text-none text-grey_500 font-weight-regular text-decoration-none py-3"
                 href="#"
                 @click="insertTemplate('quote')"
-                >Quote</v-btn
+                >Quote</a
               >
-              <v-btn
-                variant="plain"
-                class="text-none text-light_grey font-weight-regular text-decoration-none py-3"
+              <a
+                class="text-none text-grey_500 font-weight-regular text-decoration-none py-3"
                 href="#"
                 @click="insertTemplate('footnote')"
-                >Footnote</v-btn
+                >Footnote</a
               >
-              <v-btn
-                variant="plain"
-                class="text-none text-light_grey font-weight-regular text-decoration-none py-3"
+              <a
+                class="text-none text-grey_500 font-weight-regular text-decoration-none py-3"
                 href="#"
                 @click="insertTemplate('link')"
-                >Link</v-btn
+                >Link</a
               >
-              <v-btn
-                variant="plain"
-                class="text-none text-light_grey font-weight-regular text-decoration-none py-3"
+              <a
+                class="text-none text-grey_500 font-weight-regular text-decoration-none py-3"
                 href="#"
                 @click="insertTemplate('button')"
-                >Button</v-btn
+                >Button</a
               >
-              <v-btn
-                variant="plain"
-                class="text-none text-light_grey font-weight-regular text-decoration-none py-3"
+              <a
+                class="text-none text-grey_500 font-weight-regular text-decoration-none py-3"
                 href="#"
                 @click="fileDialog = true"
-                >File</v-btn
+                >File</a
               >
-              <v-btn
-                variant="plain"
-                class="text-none text-light_grey font-weight-regular text-decoration-none py-3"
+              <a
+                class="text-none text-grey_500 font-weight-regular text-decoration-none py-3"
                 href="#"
                 @click="insertTemplate('cols')"
-                >2 columns</v-btn
+                >2 columns</a
               >
-              <v-btn
-                variant="plain"
-                class="text-none text-light_grey font-weight-regular text-decoration-none py-3"
+              <a
+                class="text-none text-grey_500 font-weight-regular text-decoration-none py-3"
                 href="#"
                 @click="insertTemplate('table')"
-                >Table</v-btn
+                >Table</a
               >
-              <v-btn
-                variant="plain"
-                class="text-none text-light_grey font-weight-regular text-decoration-none py-3"
+              <a
+                class="text-none text-grey_500 font-weight-regular text-decoration-none py-3"
                 href="#"
                 @click="insertTemplate('row')"
-                >Table row</v-btn
+                >Table row</a
               >
             </nav>
             <v-textarea
@@ -98,6 +87,12 @@
               auto-grow
             ></v-textarea>
           </div>
+        </v-col>
+        <v-col cols="12">
+          <p class="text-grey_500">
+            **Bold** *Italic* _Underline_ - List with bullets # H1 ## H2 ### H3
+            #### H4 ##### H5 ###### H6
+          </p>
         </v-col>
       </v-row>
       <v-row class="py-12">
@@ -126,10 +121,13 @@
 import { ref, computed } from "vue";
 import MarkdownIt from "markdown-it";
 import MarkdownItFootnote from "markdown-it-footnote";
+import MarkdownItDeflist from "markdown-it-deflist";
 
 const md = new MarkdownIt({
   html: true,
-}).use(MarkdownItFootnote);
+})
+  .use(MarkdownItFootnote)
+  .use(MarkdownItDeflist);
 const videoDialog = ref(false);
 const imageDialog = ref(false);
 const fileDialog = ref(false);
@@ -252,9 +250,10 @@ const result = computed(() => md.render(textValue.value));
 const templates = {
   link: "[link text](http://example.com)",
   quote: `> Quote`,
-  description: `
-your descripion
-***`,
+  description: `Term 1
+
+:   Definition 1
+with lazy continuation.`,
   footnote: `Footnote 1 link[^first].
   [^first]: Footnote **can have markup**
 
@@ -266,7 +265,9 @@ your descripion
 | Paragraph   | Text        |`,
   row: `
 | cell | cell |`,
-  cols: `cols`,
+  cols: `|  |  |
+| ----------- | ----------- |
+| **Text**: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum | **Text** Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum |`,
 };
 
 function insert(textToInsert: string) {
