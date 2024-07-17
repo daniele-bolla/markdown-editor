@@ -1,6 +1,6 @@
 # Vuetify Markdown Editor
 
-simple VUe Editor using [markdown-it](https://markdown-it.github.io/) and [vuetifyjs](https://vuetifyjs.com/)
+simple Vue Markdown Editor using [markdown-it](https://markdown-it.github.io/) and [vuetifyjs](https://vuetifyjs.com/)
 
 ## 💿 Install
 
