@@ -10,7 +10,7 @@ import { fileURLToPath, URL } from "node:url";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/vue-markdown",
+  base: "/markdown-editor",
   plugins: [
     Vue({
       template: { transformAssetUrls },
