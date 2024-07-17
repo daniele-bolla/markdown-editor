@@ -1,41 +1,48 @@
 <template>
   <v-dialog v-model="props.modelValue" width="auto">
-    <v-card max-width="600" :title="props.title">
-      <v-list lines="one">
-        <v-list-item>
-          <v-file-input
-            label="File input"
-            @input="onUpload"
-            multiple
-          ></v-file-input>
-        </v-list-item>
-        <v-list-item
-          v-for="media in items"
-          :key="media.id"
-          :title="media.title"
-          @click="selectMedia(media.id)"
-          :active="isSelected(media.id)"
-        >
-          <a href="#">
-            <v-img
-              :width="400"
-              aspect-ratio="16/9"
-              cover
-              :src="media.thumb || media.url"
-            ></v-img>
-          </a>
-        </v-list-item>
-      </v-list>
+    <v-card :title="props.title">
+      <v-container class="py-6 px-8">
+        <v-row>
+          <v-col cols="12">
+            <v-file-input
+              label="Upload a new media"
+              @input="onUpload"
+              multiple
+            ></v-file-input>
+          </v-col>
+        </v-row>
+        <v-item-group v-model="selection" multiple>
+          <v-row>
+            <v-col v-for="item in items" :key="item.id" cols="12" md="6">
+              <v-item v-slot="{ isSelected, toggle }">
+                <v-img
+                  class="text-right pa-2 cursor-pointer"
+                  height="220"
+                  width="220"
+                  aspect-ratio="16/9"
+                  cover
+                  :src="item.thumb || item.url"
+                  @click="toggle"
+                >
+                  <v-btn
+                    :icon="isSelected ? 'mdi-heart' : 'mdi-heart-outline'"
+                  ></v-btn>
+                </v-img>
+              </v-item>
+            </v-col>
+          </v-row>
+        </v-item-group>
+      </v-container>
       <template v-slot:actions>
-        <v-btn class="ms-auto" text="Ok" @click="onClose()"></v-btn>
-        <v-btn class="ms-auto" text="Insert" @click="onInserMedia()"></v-btn>
+        <v-btn text="Cancel " @click="onClose()"></v-btn>
+        <v-btn text="Insert" @click="onInserMedia()"></v-btn>
       </template>
     </v-card>
   </v-dialog>
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps } from "vue";
+import { ref, computed } from "vue";
 type Media = {
   id: string;
   url: string;
@@ -45,28 +52,22 @@ type Media = {
 
 type Props = {
   title?: string;
-  media?: Media[] | undefined;
+  media: Media[];
   modelValue: boolean;
 };
 type Emit = {
-  (e: "insert", selectedMedia: Media): void;
+  (e: "insert", selectedMedia: Media[]): void;
   (e: "update:modelValue", val: boolean): void;
 };
 
 const props = <Props>defineProps(["title", "media", "modelValue"]);
 const emit = <Emit>defineEmits(["insert", "update:modelValue"]);
 
-const selectedMedia = ref<Media | undefined>();
-const items = ref<Media[] | undefined>(props.media);
-
-function isSelected(id: string) {
-  return selectedMedia.value && selectedMedia.value.id == id;
-}
-function selectMedia(id: string) {
-  if (items.value) {
-    selectedMedia.value = items.value.find((i) => i.id == id);
-  }
-}
+const items = ref<Media[]>(props.media);
+const selection = ref([]);
+const selectedMedia = computed<Media[]>(() => {
+  return selection.value.map((i) => items.value && items.value[i]);
+});
 function onClose() {
   emit("update:modelValue", false);
 }

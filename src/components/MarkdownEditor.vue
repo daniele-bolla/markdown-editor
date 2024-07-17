@@ -294,9 +294,13 @@ function insertTemplate(template: keyof typeof templates) {
 function insertTemplateMedia(title: string, url: string) {
   return `![${title}](${url} "${title}")`;
 }
-function onInsertMedia(selectedMedia: Media) {
-  const { title, url } = selectedMedia;
-  const textToInsert = insertTemplateMedia(title, url);
+function onInsertMedia(selectedMedia: Media[]) {
+  const textToInsert = selectedMedia.reduce((acc, media) => {
+    const { title, url } = media;
+    const mediaMarkdown = insertTemplateMedia(title, url);
+    return (acc += `
+  ${mediaMarkdown}`);
+  }, "");
   insert(textToInsert);
 }
 </script>
