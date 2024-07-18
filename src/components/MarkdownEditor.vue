@@ -297,8 +297,8 @@ function insertTemplateMedia(title: string, url: string) {
 }
 function onInsertMedia(selectedMedia: Media[]) {
   const textToInsert = selectedMedia.reduce((acc, media) => {
-    const { title, url } = media;
-    const mediaMarkdown = insertTemplateMedia(title, url);
+    const { title, url, thumb } = media;
+    const mediaMarkdown = insertTemplateMedia(title, thumb || url);
     return (acc += `
   ${mediaMarkdown}`);
   }, "");
